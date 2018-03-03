@@ -3,7 +3,7 @@ FROM florenttorregrosa/docker-drupal:php7
 RUN docker-php-pecl-install \
         xdebug
 # Install npm
-RUN apt-get update && apt-get install -y npm && apt-get clean && apt-get autoremove -q
+RUN apt-get update && apt-get install -y npm && apt-get clean
 
 # Install Coder.
 RUN composer global require drupal/coder:8.2.*
