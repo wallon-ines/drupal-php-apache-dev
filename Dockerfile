@@ -1,9 +1,20 @@
 FROM florenttorregrosa/docker-drupal:php7
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN docker-php-pecl-install \
         xdebug
+
 # Install npm
-RUN apt-get update && apt-get install -y npm && apt-get clean
+
+RUN apt-get update && apt-get install -y apt-transport-https
+
+RUN printf "deb https://deb.nodesource.com/node_8.x jessie main\ndeb-src https://deb.nodesource.com/node_8.x jessie main" > /etc/apt/sources.list.d/nodesource.list
+
+RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+
+RUN apt-get update && apt-get install -y nodejs && apt-get clean \
+    && npm install --global gulp-cli
 
 # Install Coder.
 RUN composer global require drupal/coder:8.2.*
