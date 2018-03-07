@@ -51,7 +51,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gd \
     && echo "sendmail_path = /usr/sbin/ssmtp -t" > /usr/local/etc/php/conf.d/conf-sendmail.ini \
     && echo "date.timezone='Europe/Paris'\n" > /usr/local/etc/php/conf.d/conf-date.ini
-    
+
 # Install Gulp
 RUN npm install --global gulp-cli
 
@@ -89,12 +89,23 @@ RUN docker-php-pecl-install \
         xdebug
 
 # Install Coder.
-RUN composer global require drupal/coder:8.2.*
+# Install Coder and configure Code sniffer.
+RUN composer global require drupal/coder:8.2.* \
+    && composer global require dealerdirect/phpcodesniffer-composer-installer \
+    && composer clear-cache \
+    && echo 'alias drupalcs="phpcs --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,css,info,txt,md'"' >> $HOME/.bashrc \
+    && echo 'alias drupalcsp="phpcs --standard=DrupalPractice --extensions='php,module,inc,install,test,profile,theme,css,info,txt,md'"' >> $HOME/.bashrc \
+    && echo 'alias drupalcbf="phpcbf --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,css,info,txt,md'"' >> $HOME/.bashrc
 
 # Install Drupal console.
 RUN curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
     && chmod +x /usr/local/bin/drupal \
     && drupal init
+
+# Add some bash aliases.
+RUN echo 'alias ll="ls -l"' >> $HOME/.bashrc \
+    && echo 'alias lll="ls -al"' >> $HOME/.bashrc
+
 
 RUN rm -rf /var/www/html && ln -s /project/web /var/www/html
 
