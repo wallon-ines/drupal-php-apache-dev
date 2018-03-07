@@ -66,7 +66,7 @@ RUN git clone https://git.php.net/repository/pecl/php/uploadprogress.git \
     && echo "extension=uploadprogress.so" > /usr/local/etc/php/conf.d/conf-uploadprogress.ini
 
 # Install PhpRedis.
-RUN git clone --branch=php7 https://github.com/phpredis/phpredis.git \
+RUN git clone https://github.com/phpredis/phpredis.git \
     && cd phpredis \
     && phpize \
     && ./configure \
