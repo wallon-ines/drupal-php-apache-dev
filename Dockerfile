@@ -1,4 +1,4 @@
-FROM php:7.0-apache
+FROM php:5.6-apache
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -83,7 +83,7 @@ RUN cd /usr/local \
     && echo 'PATH="$HOME/.composer/vendor/bin:$PATH"' >> $HOME/.bashrc
 
 # Install Drush.
-RUN composer global require drush/drush:@stable
+RUN composer global require drush/drush:^8.0
 
 RUN docker-php-pecl-install \
         xdebug
