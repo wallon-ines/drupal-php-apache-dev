@@ -86,7 +86,7 @@ RUN cd /usr/local \
 RUN composer global require drush/drush:^8.0
 
 RUN docker-php-pecl-install \
-        xdebug
+         	xdebug-2.5.5
 
 # Install Coder.
 # Install Coder and configure Code sniffer.
