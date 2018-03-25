@@ -31,7 +31,7 @@ RUN apt-get update && apt-get install -y \
         wget \
         zlib1g-dev \
         nodejs \
-        libmemcached \
+        libmemcached-dev \
     && docker-php-ext-install \
         bcmath \
         curl \
