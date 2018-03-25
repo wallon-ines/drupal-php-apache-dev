@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
         wget \
         zlib1g-dev \
         nodejs \
+        memcached \
     && docker-php-ext-install \
         bcmath \
         curl \
@@ -54,6 +55,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install Gulp
 RUN npm install --global gulp-cli
+
 
 # Install Uploadprogress
 RUN git clone https://git.php.net/repository/pecl/php/uploadprogress.git \
@@ -86,7 +88,8 @@ RUN cd /usr/local \
 RUN composer global require drush/drush:^8.0
 
 RUN docker-php-pecl-install \
-         	xdebug-2.5.5
+         	xdebug-2.5.5 \
+            memcached-2.2.0
 
 # Install Coder.
 # Install Coder and configure Code sniffer.
