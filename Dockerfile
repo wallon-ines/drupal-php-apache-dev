@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
         wget \
         zlib1g-dev \
         nodejs \
+        vim \
     && docker-php-ext-install \
         bcmath \
         curl \
