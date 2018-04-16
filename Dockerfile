@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y \
         zlib1g-dev \
         nodejs \
         libmemcached-dev \
+        vim \
     && docker-php-ext-install \
         bcmath \
         curl \
