@@ -49,6 +49,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && apt-get autoremove -q \
     && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /tmp/* \
     && a2enmod deflate expires headers mime rewrite \
+    && a2dissite 000-default \
     && echo "<Directory /var/www/html>\nAllowOverride All\n</Directory>" > /etc/apache2/conf-enabled/allowoverride.conf \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
