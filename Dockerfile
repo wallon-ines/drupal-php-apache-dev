@@ -107,8 +107,7 @@ RUN curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
 RUN echo 'alias ll="ls -l"' >> $HOME/.bashrc \
     && echo 'alias lll="ls -al"' >> $HOME/.bashrc
 
-
-RUN rm -rf /var/www/html && ln -s /project/web /var/www/html
+WORKDIR /project/web
 
 # Xdebug conf.
 COPY xdebug.ini /usr/local/etc/php/conf.d/conf-xdebug.ini
