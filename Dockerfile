@@ -4,7 +4,9 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install npm
 
-RUN apt-get update && apt-get install -y apt-transport-https
+RUN apt-get update && apt-get install -y \
+        apt-transport-https \
+        gnupg2
 
 RUN printf "deb https://deb.nodesource.com/node_8.x jessie main\ndeb-src https://deb.nodesource.com/node_8.x jessie main" > /etc/apt/sources.list.d/nodesource.list
 
@@ -20,7 +22,7 @@ RUN apt-get update && apt-get install -y \
         libjpeg-turbo-progs \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
-        libpng12-dev \
+        libpng-dev \
         libxml2-dev \
         mysql-client \
         pngquant \
