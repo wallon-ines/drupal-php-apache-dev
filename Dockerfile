@@ -109,5 +109,6 @@ RUN echo 'alias ll="ls -l"' >> $HOME/.bashrc \
 
 WORKDIR /project/web
 
+
 # Xdebug conf.
 COPY xdebug.ini /usr/local/etc/php/conf.d/conf-xdebug.ini
