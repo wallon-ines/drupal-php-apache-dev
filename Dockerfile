@@ -56,6 +56,9 @@ RUN apt-get update && apt-get install -y \
     && echo "sendmail_path = /usr/sbin/ssmtp -t" > /usr/local/etc/php/conf.d/conf-sendmail.ini \
     && echo "date.timezone='Europe/Paris'\n" > /usr/local/etc/php/conf.d/conf-date.ini
 
+RUN docker-php-pecl-install \
+        xdebug
+
 # Install Gulp
 RUN npm install --global gulp-cli
 
@@ -89,9 +92,6 @@ RUN cd /usr/local \
 # Install Drush.
 RUN composer global require drush/drush:@stable
 
-RUN docker-php-pecl-install \
-        xdebug
-
 # Install Coder.
 # Install Coder and configure Code sniffer.
 RUN composer global require drupal/coder:8.2.* \
@@ -110,7 +110,7 @@ RUN curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
 RUN echo 'alias ll="ls -l"' >> $HOME/.bashrc \
     && echo 'alias lll="ls -al"' >> $HOME/.bashrc
 
-WORKDIR /project/web
+WORKDIR /project/
 
 
 # Xdebug conf.
