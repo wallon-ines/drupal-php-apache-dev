@@ -90,8 +90,8 @@ RUN cd /usr/local \
     && echo 'PATH="$HOME/.composer/vendor/bin:$PATH"' >> $HOME/.bashrc
 
 # Install Drush.
-RUN composer global require drush/drush:@stable
-
+RUN composer global require drush/drush:@stable && \
+    ln -s /root/.composer/vendor/bin/drush /usr/bin
 # Install Coder.
 # Install Coder and configure Code sniffer.
 RUN composer global require drupal/coder:8.2.* \
