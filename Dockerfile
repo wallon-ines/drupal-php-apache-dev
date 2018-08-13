@@ -101,6 +101,9 @@ RUN composer global require drupal/coder:8.2.* \
     && echo 'alias drupalcsp="phpcs --standard=DrupalPractice --extensions='php,module,inc,install,test,profile,theme,css,info,txt,md'"' >> $HOME/.bashrc \
     && echo 'alias drupalcbf="phpcbf --standard=Drupal --extensions='php,module,inc,install,test,profile,theme,css,info,txt,md'"' >> $HOME/.bashrc
 
+# Install hirak/prestissimo 
+RUN composer global require hirak/prestissimo
+
 # Install Drupal console.
 RUN curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
     && chmod +x /usr/local/bin/drupal \
