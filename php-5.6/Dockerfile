@@ -1,12 +1,10 @@
-FROM php:7.0-apache
+FROM php:5.6-apache-jessie
 
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install npm
 
-RUN apt-get update && apt-get install -y \
-        apt-transport-https \
-        gnupg2
+RUN apt-get update && apt-get install -y apt-transport-https
 
 RUN printf "deb https://deb.nodesource.com/node_8.x jessie main\ndeb-src https://deb.nodesource.com/node_8.x jessie main" > /etc/apt/sources.list.d/nodesource.list
 
@@ -22,7 +20,7 @@ RUN apt-get update && apt-get install -y \
         libjpeg-turbo-progs \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
-        libpng-dev \
+        libpng12-dev \
         libxml2-dev \
         mysql-client \
         pngquant \
@@ -33,6 +31,7 @@ RUN apt-get update && apt-get install -y \
         wget \
         zlib1g-dev \
         nodejs \
+        libmemcached-dev \
         vim \
     && docker-php-ext-install \
         bcmath \
@@ -49,7 +48,6 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && apt-get autoremove -q \
     && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /tmp/* \
     && a2enmod deflate expires headers mime rewrite \
-    && a2dissite 000-default \
     && echo "<Directory /var/www/html>\nAllowOverride All\n</Directory>" > /etc/apache2/conf-enabled/allowoverride.conf \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
@@ -58,6 +56,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install Gulp
 RUN npm install --global gulp-cli
+
 
 # Install Uploadprogress
 RUN git clone https://git.php.net/repository/pecl/php/uploadprogress.git \
@@ -87,10 +86,11 @@ RUN cd /usr/local \
     && echo 'PATH="$HOME/.composer/vendor/bin:$PATH"' >> $HOME/.bashrc
 
 # Install Drush.
-RUN composer global require drush/drush:@stable
+RUN composer global require drush/drush:^8.0
 
 RUN docker-php-pecl-install \
-        xdebug
+         	xdebug-2.5.5 \
+            memcached-2.2.0
 
 # Install Coder.
 # Install Coder and configure Code sniffer.
@@ -106,12 +106,15 @@ RUN curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
     && chmod +x /usr/local/bin/drupal \
     && drupal init
 
+# Install hirak/prestissimo 
+RUN composer global require hirak/prestissimo
+
 # Add some bash aliases.
 RUN echo 'alias ll="ls -l"' >> $HOME/.bashrc \
     && echo 'alias lll="ls -al"' >> $HOME/.bashrc
 
-WORKDIR /project/web
 
+RUN rm -rf /var/www/html && ln -s /project/web /var/www/html
 
 # Xdebug conf.
 COPY xdebug.ini /usr/local/etc/php/conf.d/conf-xdebug.ini
