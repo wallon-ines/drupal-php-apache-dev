@@ -106,7 +106,7 @@ RUN curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
     && chmod +x /usr/local/bin/drupal \
     && drupal init
 
-# Install hirak/prestissimo 
+# Install hirak/prestissimo
 RUN composer global require hirak/prestissimo
 
 # Add some bash aliases.
@@ -114,7 +114,7 @@ RUN echo 'alias ll="ls -l"' >> $HOME/.bashrc \
     && echo 'alias lll="ls -al"' >> $HOME/.bashrc
 
 
-RUN rm -rf /var/www/html && ln -s /project/web /var/www/html
+WORKDIR /project/
 
 # Xdebug conf.
 COPY xdebug.ini /usr/local/etc/php/conf.d/conf-xdebug.ini
